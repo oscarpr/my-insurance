@@ -24,14 +24,22 @@ namespace MyInsurance.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Policy>>> Get()
         {
-            return await _context.Policies.ToListAsync();
+            return await _context.Policies
+                .Include(p => p.RiskType)
+                .Include(p => p.PolicyCoverage)
+                    .ThenInclude(c => c.Coverage)
+                .ToListAsync();
         }
 
         // GET api/policy/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Policy>> Get(int id)
         {
-            var policy = await _context.Policies.FindAsync(id);
+            var policy = await _context.Policies
+                .Include(p => p.RiskType)
+                .Include(p => p.PolicyCoverage)
+                    .ThenInclude(pcoverave => pcoverave.Coverage)
+                .Where(p => p.ID == id).FirstAsync();
             if (policy == null)
             {
                 return NotFound();
@@ -42,25 +50,30 @@ namespace MyInsurance.Controllers
 
         // POST api/policy
         [HttpPost]
-        public async Task<ActionResult<Policy>> Post(Policy policy)
+        public async Task<ActionResult<Policy>> Post(PolicyRequest request)
         {
-            _context.Policies.Add(policy);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(Get), new { id = policy.ID }, policy);
+            Policy policy = Policy.GetPolicyFromRequest(request);
+            if(policy != null)
+            {
+                _context.Policies.Add(policy);
+                await _context.SaveChangesAsync();
+                return CreatedAtAction(nameof(Get), new { id = policy.ID }, policy);
+            }
+            return BadRequest();
         }
 
         // PUT api/policy/5
         [HttpPut("{id}")]
-        public async Task<ActionResult<Policy>> Put (int id, Policy policy)
+        public async Task<ActionResult<Policy>> Put (int id, PolicyRequest request)
         {
-            if(id != policy.ID)
+            if(id != request.ID)
             {
                 return BadRequest();
             }
+            Policy policy = Policy.GetPolicyFromRequest(request);
             _context.Entry(policy).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return NoContent();
-
         }
 
         // DELETE api/policy/5

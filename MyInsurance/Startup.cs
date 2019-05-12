@@ -10,7 +10,7 @@ namespace MyInsurance
 {
     public class Startup
     {
-        private const string DatabaseName = "EnsuranceContext";
+        private const string Connection = "Data Source=EnsuranceContext.db";
 
         public Startup(IConfiguration configuration)
         {
@@ -22,8 +22,9 @@ namespace MyInsurance
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<EnsuranceContext>(opt =>  opt.UseInMemoryDatabase(DatabaseName));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddDbContext<EnsuranceContext>(opt => opt.UseSqlite(Connection));
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -8,27 +8,58 @@ namespace MyInsurance.DLA
     public class EnsuranceContext : DbContext
     {
         public DbSet<Policy> Policies { get; set; }
+        public DbSet<RiskType> RiskType { get; set; }
+        public DbSet<CoverageType> CoverageType { get; set; }
+        public DbSet<PolicyCoverage> PolicyCoverage { get; set; }
 
-        public EnsuranceContext(DbContextOptions options) : base(options) { }
+        public EnsuranceContext(DbContextOptions<EnsuranceContext> options) : base(options) { }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            optionsBuilder.UseInMemoryDatabase("EnsuranceContext");
-        }
+            modelBuilder.Entity<PolicyCoverage>()
+                .HasKey(pc => new { pc.CoverageID, pc.PolicyID });
 
-        /* protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Policy>().HasData(
-                new Policy { ID = 1, Name = "Pol0001", RiskType = "Alto", Percentage = 0.3m, InitDate = "12/08/1098", Description = "Polizas para autos", CoverageTime = 12, Price = 500 }
+            modelBuilder.Entity<PolicyCoverage>()
+                .HasOne(pc => pc.Coverage)
+                .WithMany(c => c.PolicyCoverages)
+                .HasForeignKey(pc => pc.CoverageID);
+
+            modelBuilder.Entity<PolicyCoverage>()
+                .HasOne(pc => pc.Policy)
+                .WithMany(c => c.PolicyCoverage)
+                .HasForeignKey(pc => pc.PolicyID);
+
+            modelBuilder.Entity<PolicyCoverage>().HasData(
+                    new PolicyCoverage { PolicyID = 1, CoverageID = 2 },
+                    new PolicyCoverage { PolicyID = 1, CoverageID = 3 }
+                );
+
+            modelBuilder.Entity<CoverageType>().HasData(
+                new CoverageType { ID = 1, Description = "Terremoto" },
+                new CoverageType { ID = 2, Description = "Incendio" },
+                new CoverageType { ID = 3, Description = "Robo" },
+                new CoverageType { ID = 4, Description = "Perdida" }
+                );
+
+            modelBuilder.Entity<RiskType>().HasData(
+                new RiskType { ID = 1, Description = "Bajo" },
+                new RiskType { ID = 2, Description = "Medio" },
+                new RiskType { ID = 3, Description = "Medio-Alto" },
+                new RiskType { ID = 4, Description = "Alto" }
                 );
 
             modelBuilder.Entity<Policy>().HasData(
-               new Policy { ID = 2, Name = "Pol0002", RiskType = "Medio", Percentage = 0.7m, InitDate = "12/06/1996", Description = "Polizas para tu casa", CoverageTime = 9, Price = 1500 }
-               );
-
-            modelBuilder.Entity<Policy>().HasData(
-              new Policy { ID = 3, Name = "Pol0003", RiskType = "Bajo", Percentage = 0.9m, InitDate = "1/01/2012", Description = "Polizas mas caras para casa", CoverageTime = 12, Price = 800 }
-               );
-        }*/
+               new Policy
+               {
+                   ID = 1,
+                   Name = "Pol0001",
+                   RiskTypeID = 3,
+                   Percentage = 90.3m,
+                   InitDate = new DateTime(1995,08,12),
+                   Description = "Polizas para autos",
+                   CoverageTime = 12,
+                   Price = 500
+               });
+        }
     }
 }
