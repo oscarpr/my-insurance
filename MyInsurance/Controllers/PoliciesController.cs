@@ -53,7 +53,7 @@ namespace MyInsurance.Controllers
         public async Task<ActionResult<Policy>> Post(PolicyRequest request)
         {
             Policy policy = Policy.GetPolicyFromRequest(request);
-            if(policy != null)
+            if(policy != null && Policy.ValidPolicy(policy))
             {
                 _context.Policies.Add(policy);
                 await _context.SaveChangesAsync();
@@ -71,7 +71,10 @@ namespace MyInsurance.Controllers
                 return BadRequest();
             }
             Policy policy = Policy.GetPolicyFromRequest(request);
-            _context.Entry(policy).State = EntityState.Modified;
+            if (policy != null && Policy.ValidPolicy(policy))
+            {
+                _context.Entry(policy).State = EntityState.Modified;
+            }
             await _context.SaveChangesAsync();
             return NoContent();
         }

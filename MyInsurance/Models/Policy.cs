@@ -45,5 +45,17 @@ namespace MyInsurance.Models
                 return null;
             }
         }
+
+        public static bool ValidPolicy(Policy policy)
+        {
+            bool response = false;
+            response = ValidPercentage(policy.Percentage, policy.RiskTypeID);
+            return response;
+        }
+
+        public static bool ValidPercentage(decimal percentaje, int riskTypeID)
+        {
+            return (percentaje < 50) || (riskTypeID != 4);
+        }
     }
 }
