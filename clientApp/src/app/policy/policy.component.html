@@ -44,7 +44,7 @@
                         </div>
                     </div>
                     <div class="col-12 action-buttons__container">
-                        <button class="btn btn-primary" type="submit" [disabled]="!policyForm.valid">Guardar</button>
+                        <button class="btn btn-primary" type="submit" [disabled]="!policyForm.valid || (policyForm.get('policyCoverage').value.length === 0)">Guardar</button>
                         <button class="btn btn-secundary"
                             (click)="showForm = false; policyForm.reset()">Cancelar</button>
                     </div>

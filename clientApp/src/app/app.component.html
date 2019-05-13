@@ -6,7 +6,7 @@
     </div>
     <div class="col-12 col-lg-4 app__sidebar-container container-card" [class.open]="sidebarOpened">
       <ul>
-        <li routerLink="policies" routerLinkActive="active">
+        <li routerLink="policies" routerLinkActive="active" (click)="sidebarOpened = false;">
           Polizas de seguros
         </li>
       </ul>

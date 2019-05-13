@@ -8,16 +8,17 @@ export class PolicyService {
     constructor() { }
 
     getPolicyForm(fb: FormBuilder): FormGroup {
-        return fb.group({
-            name: [null, Validators.required],
-            description: [null, Validators.required],
-            percentage: [null, Validators.required],
+        let form: FormGroup = fb.group({
+            name: [null, [Validators.required]],
+            description: [null, [Validators.required]],
+            percentage: [null, [Validators.required, Validators.pattern(/^[0-9]*$/)]],
             initDate: [null, Validators.required],
-            coverageTime: [null, Validators.required],
-            price: [null, Validators.required],
+            coverageTime: [null, [Validators.required, Validators.pattern(/^[0-9]*$/)]],
+            price: [null, [Validators.required, Validators.pattern(/^[0-9]*$/)]],
             riskTypeID: [null, Validators.required],
             policyCoverage: fb.array([])
         });
+        return form;
     }
 
     restartPolicyCoverage(form: FormGroup): void {
@@ -26,5 +27,4 @@ export class PolicyService {
             (form.get('policyCoverage') as FormArray).removeAt(i);
         }
     }
-
 }

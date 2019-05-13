@@ -10,6 +10,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { HttpClientModule } from '@angular/common/http';
 
 export const routes: Routes = [
+  { path: '', redirectTo: 'policies', pathMatch: 'full' },
   { path: 'policies', loadChildren: './policy/policy.module#PolicyModule' }
 ];
 
