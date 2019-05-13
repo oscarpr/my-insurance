@@ -21,6 +21,10 @@
                 font-size: 16px;
                 width: 100%;
                 border-bottom: 1px solid black;
+
+                &:not([type="checkbox"]) {
+                    margin: 5px 0;
+                }
             }
 
             .add-hint {

@@ -4,20 +4,52 @@
     padding-top: 1%;
     height: 100%;
 
+    @media screen and (max-width: $tablet-size) {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
     .container-card {
         height: 100%;
         background: $color;
         border-radius: 4px;
         box-shadow: 1px 5px 9px $color;
     }
-    
+
     .app__content {
         height: 100%;
-        
+
+        .app__header {
+            .app-title {
+                display: inline-block;
+
+                @media screen and (max-width: $tablet-size) {
+                    margin-left: 15px;
+                }
+            }
+
+            .menu-icon {
+                font-size: 24px;
+
+                @media screen and (min-width: $tablet-size) {
+                    display: none;
+                }
+            }
+        }
+
         .app__sidebar-container {
+            height: 100%;
             padding-top: 15px;
             padding-left: 0;
             padding-right: 0;
+
+            @media screen and (max-width: $tablet-size) {
+                display: none;
+
+                &.open {
+                    display: block;
+                }
+            }
 
             ul {
                 padding: 0;

@@ -1,16 +1,17 @@
 <section class="container app__container">
   <div class="row app__content">
-    <div class="col-12">
-      <h1>Mis polizas de seguro App</h1>
+    <div class="col-12 app__header">
+      <i class="fas fa-bars menu-icon" (click)="toggleMenu()"></i>
+      <h1 class="app-title">Mis polizas de seguro App</h1>
     </div>
-    <div class="col-4 app__sidebar-container container-card">
+    <div class="col-12 col-lg-4 app__sidebar-container container-card" [class.open]="sidebarOpened">
       <ul>
         <li routerLink="policies" routerLinkActive="active">
           Polizas de seguros
         </li>
       </ul>
     </div>
-    <main class="col-8">
+    <main class="col-12 col-lg-8">
       <section class="container-card">
         <router-outlet></router-outlet>
       </section>

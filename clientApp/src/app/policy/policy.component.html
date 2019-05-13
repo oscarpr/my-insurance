@@ -5,35 +5,35 @@
         </div>
     </div>
     <div class="row policies__policies-list">
-        <form class="form-policy policy col-8" [formGroup]="policyForm" (submit)="onSubmit(policyForm.value)">
+        <form class="form-policy policy col-12 col-md-8" [formGroup]="policyForm" (submit)="onSubmit(policyForm.value)">
             <div class="add-hint container-fluid" (click)="showForm = true" *ngIf="!showForm">
                 <i class="add-icon fas fa-plus-circle"></i>
             </div>
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-12 col-lg-4">
                         <input type="text" placeholder="Nombre" formControlName="name">
                     </div>
-                    <div class="col-4 risk-type">
+                    <div class="col-6 col-lg-4 risk-type">
                         <select formControlName="riskTypeID">
                             <option value="null" selected disabled>Tipo de riesgo</option>
                             <option [value]="riskType.id" *ngFor="let riskType of (riskTypes$ | async)">
                                 {{riskType.description}}</option>
                         </select>
                     </div>
-                    <div class="col-4">
+                    <div class="col-6 col-lg-4">
                         <input type="text" placeholder="Porcentaje" formControlName="percentage">
                     </div>
-                    <div class="col-8">
+                    <div class="col-12 col-lg-8">
                         <input type="text" placeholder="Descripción" formControlName="description">
                     </div>
-                    <div class="col-4">
+                    <div class="col-12 col-lg-4">
                         <input type="text" placeholder="Precio" formControlName="price">
                     </div>
-                    <div class="col-6">
+                    <div class="col-12 col-lg-6">
                         <input type="text" placeholder="Ini. cover (dd/mm/yyyy)" formControlName="initDate">
                     </div>
-                    <div class="col-3">
+                    <div class="col-6 col-lg-3">
                         <input type="text" placeholder="Tiempo covertura (meses)" formControlName="coverageTime">
                     </div>
                     <div class="col-12 tags-container">
@@ -51,7 +51,7 @@
                 </div>
             </div>
         </form>
-        <div class="policy col-6" *ngFor="let policy of (policies$ | async)">
+        <div class="policy col-12 col-md-6" *ngFor="let policy of (policies$ | async)">
             <div class="container-fluid">
                 <div class="row">
                     <i class="fas fa-trash remove-icon" (click)="removePolicy(policy.id)"></i>
