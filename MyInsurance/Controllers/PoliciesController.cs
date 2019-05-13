@@ -4,8 +4,8 @@ using MyInsurance.DLA;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MyInsurance.Models;
-using System;
 using System.Linq;
+using System;
 
 namespace MyInsurance.Controllers
 {
@@ -53,7 +53,7 @@ namespace MyInsurance.Controllers
         public async Task<ActionResult<Policy>> Post(PolicyRequest request)
         {
             Policy policy = Policy.GetPolicyFromRequest(request);
-            if(policy != null && Policy.ValidPolicy(policy))
+            if (policy != null && Policy.ValidPolicy(policy))
             {
                 _context.Policies.Add(policy);
                 await _context.SaveChangesAsync();
@@ -64,9 +64,9 @@ namespace MyInsurance.Controllers
 
         // PUT api/policy/5
         [HttpPut("{id}")]
-        public async Task<ActionResult<Policy>> Put (int id, PolicyRequest request)
+        public async Task<ActionResult<Policy>> Put(int id, PolicyRequest request)
         {
-            if(id != request.ID)
+            if (id != request.ID)
             {
                 return BadRequest();
             }
@@ -84,7 +84,7 @@ namespace MyInsurance.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var policy = await _context.Policies.FindAsync(id);
-            if(policy == null)
+            if (policy == null)
             {
                 return NotFound();
             }

@@ -1,0 +1,102 @@
+@import "./../scss/variables";
+
+.policies__container {
+    .policies__content {
+        .policies__header-container {
+            text-align: center;
+        }
+    }
+
+    .policy {
+        margin-bottom: 8px;
+
+        &.form-policy {
+            margin: auto;
+            margin-bottom: 10px;
+
+            input, select {
+                background: transparent;
+                border: none;
+                outline: none;
+                font-size: 16px;
+                width: 100%;
+                border-bottom: 1px solid black;
+            }
+
+            .add-hint {
+                z-index: 9;
+                position: absolute;
+                height: 100%;
+                width: calc(100% - 30px);
+                cursor: pointer;
+
+                &:hover {
+                    .add-icon {
+                        font-size: 30px;
+                        transition: font-size 1s;
+                        -moz-transition: font-size 1s; /* Firefox 4 */
+                        -webkit-transition: font-size 1s; /* Safari and Chrome */
+                        -o-transition: font-size 1s;
+                    }
+                }
+
+                .add-icon {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                }
+            }
+
+            .tags-container {
+                margin-top: 5px;
+
+                .tag {
+                    input {
+                        width: auto;
+                    }
+                }
+            }
+
+            .action-buttons__container {
+                margin-top: 5px;
+                text-align: center;
+
+                button {
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .container-fluid {
+            p, h1, h2, h3 {
+                margin: 0;
+            }
+
+            background: $dark;
+            border-radius: 4px;
+            padding: 15px;
+            position: relative;
+
+            &:not(.add-hint):hover {
+                background: $darkest;
+            }
+
+            .remove-icon {
+                z-index: 9;
+                position: absolute;
+                top: 12px;
+                right: 12px;
+                cursor: pointer;
+
+                &:hover {
+                    font-size: 20px;
+                }
+            }
+
+            .risk-type {
+                font-size: 14px;
+            }
+        }
+    }
+}

@@ -1,0 +1,84 @@
+<section class="container policies__container">
+    <div class="row policies__content">
+        <div class="col-12 policies__header-container">
+            <h3>Polizas existentes</h3>
+        </div>
+    </div>
+    <div class="row policies__policies-list">
+        <form class="form-policy policy col-8" [formGroup]="policyForm" (submit)="onSubmit(policyForm.value)">
+            <div class="add-hint container-fluid" (click)="showForm = true" *ngIf="!showForm">
+                <i class="add-icon fas fa-plus-circle"></i>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-4">
+                        <input type="text" placeholder="Nombre" formControlName="name">
+                    </div>
+                    <div class="col-4 risk-type">
+                        <select formControlName="riskTypeID">
+                            <option value="null" selected disabled>Tipo de riesgo</option>
+                            <option [value]="riskType.id" *ngFor="let riskType of (riskTypes$ | async)">
+                                {{riskType.description}}</option>
+                        </select>
+                    </div>
+                    <div class="col-4">
+                        <input type="text" placeholder="Porcentaje" formControlName="percentage">
+                    </div>
+                    <div class="col-8">
+                        <input type="text" placeholder="Descripción" formControlName="description">
+                    </div>
+                    <div class="col-4">
+                        <input type="text" placeholder="Precio" formControlName="price">
+                    </div>
+                    <div class="col-6">
+                        <input type="text" placeholder="Ini. cover (dd/mm/yyyy)" formControlName="initDate">
+                    </div>
+                    <div class="col-3">
+                        <input type="text" placeholder="Tiempo covertura (meses)" formControlName="coverageTime">
+                    </div>
+                    <div class="col-12 tags-container">
+                        <div class="tag" *ngFor="let coverageType of (coverageTypes$ | async)">
+                            <input type="checkbox" [id]="coverageType.id"
+                                (change)="onChangeCoverageType(coverageType.id, coverageCheck.checked)" #coverageCheck>
+                            <label [attr.for]="coverageType.id">{{coverageType.description}}</label>
+                        </div>
+                    </div>
+                    <div class="col-12 action-buttons__container">
+                        <button class="btn btn-primary" type="submit" [disabled]="!policyForm.valid">Guardar</button>
+                        <button class="btn btn-secundary"
+                            (click)="showForm = false; policyForm.reset()">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="policy col-6" *ngFor="let policy of (policies$ | async)">
+            <div class="container-fluid">
+                <div class="row">
+                    <i class="fas fa-trash remove-icon" (click)="removePolicy(policy.id)"></i>
+                    <div class="col-4">
+                        <h1>{{policy.name}}</h1>
+                    </div>
+                    <div class="col-4 risk-type">
+                        <p>{{policy.riskType?.description}}</p>
+                    </div>
+                    <div class="col-4">
+                        {{ (policy.percentage / 100) | percent:'1.1-1' }}
+                    </div>
+                    <div class="col-8">
+                        {{policy.description}}
+                    </div>
+                    <div class="col-2">
+                        {{policy.price | currency:'$':'symbol':'1.0-0'}}
+                    </div>
+                    <div class="col-12">
+                        <ng-container *ngFor="let coverage of policy.policyCoverage">
+                            <div class="tag">
+                                {{coverage.coverage?.description}}
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

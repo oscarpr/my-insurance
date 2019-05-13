@@ -22,6 +22,16 @@ namespace MyInsurance
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("*",
+                builder =>
+                {
+                    builder.WithOrigins("*");
+                    builder.WithMethods("GET", "POST", "PUT", "DELETE");
+                    builder.AllowAnyHeader();
+                });
+            });
             services.AddDbContext<EnsuranceContext>(opt => opt.UseSqlite(Connection));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
@@ -39,7 +49,7 @@ namespace MyInsurance
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseCors("*");
             app.UseHttpsRedirection();
             app.UseMvc();
         }
